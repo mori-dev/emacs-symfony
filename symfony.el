@@ -506,6 +506,14 @@ when sf:tags-cache is set, return it."
   (interactive)
   (sf:anything-project (sf:matched-files "helper")))
 
+(defun sf-cmd:js-files ()
+  (interactive)
+  (sf:anything-project (sf:matched-files "js")))
+
+(defun sf-cmd:css-files ()
+  (interactive)
+  (sf:anything-project (sf:matched-files "css")))
+
 (defun sf-cmd:test-files ()
   (interactive)
   (sf:anything-project (sf:matched-files "test")))
@@ -513,14 +521,6 @@ when sf:tags-cache is set, return it."
 (defun sf-cmd:fixture-files ()
   (interactive)
   (sf:anything-project (sf:matched-files "fixtures")))
-
-(defun sf-cmd:css-files ()
-  (interactive)
-  (sf:anything-project (sf:matched-files "css")))
-
-(defun sf-cmd:js-files ()
-  (interactive)
-  (sf:anything-project (sf:matched-files "js")))
 
 (defun sf-cmd:open-log-file (log-file)
   (interactive
@@ -831,7 +831,10 @@ IF nil, do nothing")
 (sf:define-key "C-c g a" 'sf-cmd:action-files)
 (sf:define-key "C-c g h" 'sf-cmd:helper-files)
 (sf:define-key "C-c g t" 'sf-cmd:template-files)
+(sf:define-key "C-c g j" 'sf-cmd:js-files)
+(sf:define-key "C-c g c" 'sf-cmd:css-files)
 (sf:define-key "C-c g T" 'sf-cmd:test-files)
+(sf:define-key "C-c g f" 'sf-cmd:fixture-files)
 
 (sf:define-key "C-c l" 'sf-cmd:open-log-file)
 (sf:define-key "C-c C-t" 'sf-cmd:create-or-update-tags)
