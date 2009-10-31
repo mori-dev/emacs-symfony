@@ -510,6 +510,18 @@ when sf:tags-cache is set, return it."
   (interactive)
   (sf:anything-project (sf:matched-files "test")))
 
+(defun sf-cmd:fixture-files ()
+  (interactive)
+  (sf:anything-project (sf:matched-files "fixtures")))
+
+(defun sf-cmd:css-files ()
+  (interactive)
+  (sf:anything-project (sf:matched-files "css")))
+
+(defun sf-cmd:js-files ()
+  (interactive)
+  (sf:anything-project (sf:matched-files "js")))
+
 (defun sf-cmd:open-log-file (log-file)
   (interactive
    (list
