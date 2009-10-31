@@ -104,6 +104,8 @@ e.x,
   "value of candidate-number-limit. Candidate-number-limit overrides
 `anything-candidate-number-limit' only for this source.")
 
+(defvar sf:persistent-action-buffer "*symfony*")
+
 (defmacro* sf:with-root (&body body)
   (let ((root (gensym)))
     `(let ((,root (sf:get-project-root)))
@@ -280,6 +282,15 @@ Note, dont return just STRING even if find one template file."
   "if this variable is set to non-nil and candidates is just one,
 find file quickly (dont use anything interface)")
 
+(defun sf:anything-project-persistent-action (c)
+  (let ((b (get-buffer-create sf:persistent-action-buffer)))
+      (with-current-buffer b
+        (erase-buffer)
+        (insert-file-contents c)
+        (goto-char (point-min)))
+      (pop-to-buffer b))
+  (ignore-errors (run-hooks 'sf:after-anything-project-action-hook)))
+
 (defun sf:anything-project (--candidates)
   (cond
    ((and sf:quickly-find-file-when-candidates-length-is-1
@@ -294,7 +305,13 @@ find file quickly (dont use anything interface)")
              (candidates-in-buffer)
              (candidate-number-limit . ,sf:candidate-number-limit)             
              (action . (("Find file" .
-                         sf:anything-project-find-file))))))
+                         sf:anything-project-find-file)))
+             (persistent-action . (lambda (candidate)
+                                    (sf:anything-project-persistent-action candidate)))
+             (cleanup . (lambda ()
+                          (if (get-buffer sf:persistent-action-buffer)
+                              (kill-buffer sf:persistent-action-buffer)))))))
+      
       (anything (list source))))))
 
 (defun sf:anything-project-find-file (c)
