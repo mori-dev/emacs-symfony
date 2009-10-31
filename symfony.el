@@ -100,6 +100,10 @@ e.x,
 
 (defvar sf:number-of-lines-shown-when-opening-log-file 200)
 
+(defvar sf:candidate-number-limit 50
+  "value of candidate-number-limit. Candidate-number-limit overrides
+`anything-candidate-number-limit' only for this source.")
+
 (defmacro* sf:with-root (&body body)
   (let ((root (gensym)))
     `(let ((,root (sf:get-project-root)))
@@ -288,6 +292,7 @@ find file quickly (dont use anything interface)")
                        (with-current-buffer (anything-candidate-buffer 'local)
                          (insert (mapconcat 'identity --candidates "\n")))))
              (candidates-in-buffer)
+             (candidate-number-limit . ,sf:candidate-number-limit)             
              (action . (("Find file" .
                          sf:anything-project-find-file))))))
       (anything (list source))))))
