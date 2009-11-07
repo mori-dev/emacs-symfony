@@ -498,6 +498,33 @@ when sf:tags-cache is set, return it."
 ;;   (sf-cmd:update-caches)
 ;;   (sf:tags-build-class-candidates))
 
+(defvar anything-c-source-symfony-el-command
+  '((name . "symfony-el-comand")
+    (candidates
+     . (sf-cmd:all-project-files
+        sf-cmd:primary-switch
+        sf-cmd:relative-files
+        sf-cmd:model-files
+        sf-cmd:action-files
+        sf-cmd:template-files
+        sf-cmd:helper-files
+        sf-cmd:js-files
+        sf-cmd:css-files
+        sf-cmd:test-files
+        sf-cmd:fixture-files
+        sf-cmd:open-log-file
+        sf-cmd:create-or-update-tags
+        sf-cmd:update-caches
+        sf-script:kill-process
+        sf-script:output-mode
+        sf-template:switch-to-action
+        sf:create_partial_on_region))
+    (type . command)))
+
+(defun sf-cmd:anything-symfony-el-command ()
+  (interactive)
+  (anything (list anything-c-source-symfony-el-command) nil nil nil))
+
 ;;;; Commands
 ;; Prefix: sf-cmd:
 (defun sf-cmd:all-project-files ()
@@ -861,6 +888,7 @@ IF nil, do nothing")
 (sf:define-key "C-c l" 'sf-cmd:open-log-file)
 (sf:define-key "C-c C-t" 'sf-cmd:create-or-update-tags)
 
+(sf:define-key "C-]" 'sf-cmd:anything-symfony-el-command)
 
 ;;;; Install
 (defun sf:find-file-hook ()
